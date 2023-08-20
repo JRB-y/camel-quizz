@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>page1</title>
+    
+    <style>
+        
+        *{
+            padding: 0;
+            margin: 0;
+            text-decoration: none;
+            List-style-type:none;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+            text-transform: capitalize;
+        }
+        .jaune_haut{
+            height: 30vh;
+            background-color: rgb(7, 101, 138);
+            
+        }
+        .titre{
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+            padding-top: 50px;
+            
+        }
+        .titre h1{
+            color: yellow;
+            font-size: 30px;
+        }
+        .bleu_down{
+            height: 70vh;
+            background-color: yellow;
+            display: flex;
+            padding-left: 40px;
+            
+            
+        }
+        #quizForm{
+            margin-top: 20px;
+        }
+        .score{  
+            font-size: 20px;
+            color: rgb(7, 101, 138);
+            /* padding-left: 800px; */
+            font-weight: bold;
+            
+        }
+        #message{
+            justify-content: flex-start; 
+            font-size: 30px;
+            color: rgb(7, 101, 138);
+            padding-right: 125px;
+            margin-top: 210px;
+            
+        }
+        .time{
+            font-size: 20px;
+            color: rgb(7, 101, 138);
+            /* padding-left: 800px; */
+            font-weight: bold;
+        }
+        .questions ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+        
+        .questions li {
+            height: 60px;
+            width: 600px;
+            display: block;
+            margin: 10px 0;
+            border-radius: 10px;
+            background-color: rgb(7, 101, 138);
+            color: yellow;
+            cursor: pointer;
+            font-size: 18px;
+            padding-top: 20px;
+            padding-left: 20px;
+        }
+        
+        .questions {
+            margin-top: 30px;
+            /* margin-left: 60px; */
+        }
+        
+        .questions h1 {
+            font-size: 30px;
+            font-weight: bolder;
+            color: rgb(7, 101, 138);
+            margin-left: 12px;
+            padding-bottom: 35px;
+        }
+        
+        
+        
+        .questions li.correct {
+            background-color: green;
+        }
+        
+        .questions li.incorrect {
+            background-color: red;
+        }
+        .score_total {
+            font-size: 35px;
+            
+        }
+           
+    
+        
+            /* Rest of your existing styles */
+        
+            /* Responsive adjustments and media queries */
+            @media (max-width: 768px) {
+                /* Vos styles existants pour les tailles d'écran plus petites */
+                body,html{
+                    height:100%;
+                }
+                .bleu_down {
+                    height: 100%; /* Hauteur auto pour s'adapter au contenu */
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    padding: 20px;
+                }
+        
+                .jaune_haut {
+                    height: 20vh;
+                }
+        
+                #quizForm {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    margin-top: 20px;
+                }
+        
+                .score {
+                    font-size: 14px;
+                    text-align: center;
+                    margin-bottom: 10px;
+                    /* padding-left: 45px; */
+                    margin-top: 21px;
+                }
+                        
+                .time {
+                    font-size: 14px;
+                    text-align: center;
+                    margin-bottom: 10px;
+                    /* padding-left: 45px; */
+                }
+                
+                .score_total {
+                    font-size: 25px;
+                    text-align: center;
+                    margin-top: 20px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                
+                div#message { 
+                    font-size: 20px;
+                    text-align: center;
+                    margin-top: 20px;
+                    margin-left: 20px;
+                    padding: 10px;
+                    color: rgb(7, 101, 138);
+                }
+                .questions {
+                    margin-top: 30px;
+                    display: flex;
+                    flex-direction: column;
+                    text-align: center;
+                    justify-content: center;
+                    /* margin-bottom: 25px; */
+                }
+                
+                .questions h1 {
+                    font-size: 16px;
+                    font-weight: bolder;
+                    color: rgb(7, 101, 138);
+                    padding-top: 20px;
+                    word-wrap: break-word;
+                    text-align: center;
+                }
+                        
+                .questions li {
+                    height: auto;
+                    width: 300px;
+                    display: block;
+                    /* margin: 10px auto; */
+                    border-radius: 10px;
+                    background-color: rgb(7, 101, 138);
+                    color: yellow;
+                    cursor: pointer;
+                    font-size: 16px;
+                    text-align: center;
+                    padding: 12px;
+                    height: auto;
+                }
+            
+        
+            }
+
+
+        
+        </style>
+    
+</head>
+<body>
+    <section class="jaune_haut">
+        <div class="titre">
+            <h1>Play your music village</h1>
+            <img src="" alt="Logo">
+        </div>
+    </section>
+
+    <section class="bleu_down">
+        <form id="quizForm">
+            <div id="score" class="score">Score : 0</div>
+            <div class="time" id="timer">Time : <span id="seconds"></span> seconds</div>
+          
+            <div class="questions">
+                <h1 class="question_title"></h1>
+                <ul class="question_answers"></ul>
+            </div>
+        </form>
+        <div id="message"></div>
+        
+    </section>
+
+    <script>
+        var score = 0;
+        let currentQuestion = 0;
+        var message = document.getElementById('message');
+        var timerEl = document.getElementById('timer');
+        var timerInterval;
+        const titleEl = document.querySelector('.question_title');
+        const answersEl = document.querySelector('.question_answers');
+        const scoreTotalEl = document.getElementById('score'); 
+
+        const QUESTIONS = [
+            {
+                question: 'Quel est votre âge?',
+                answers: [
+                {
+                    id: 1,
+                    text: '16',
+                    correct: false,
+                },
+                {
+                    id: 2,
+                    text: '17',
+                    correct: true,
+                }
+                ]
+            },
+            {
+                question: 'Quel est votre nom ?',
+                answers: [
+                {
+                    id: 1,
+                    text: '16',
+                    correct: false,
+                },
+                {
+                    id: 2,
+                    text: '17',
+                    correct: true,
+                }
+                ]
+            },
+            {
+                question: 'Quel exxxxxxxx?',
+                answers: [
+                {
+                    id: 1,
+                    text: 'yy',
+                    correct: false,
+                },
+                {
+                    id: 2,
+                    text: 'y',
+                    correct: true,
+                }
+                ]
+            },
+            {
+                question: 'Quel est mmmmmmmm ?',
+                answers: [
+                {
+                    id: 1,
+                    text: '4',
+                    correct: false,
+                },
+                {
+                    id: 2,
+                    text: '5',
+                    correct: true,
+                },
+                {
+                    id: 3,
+                    text: '1',
+                    correct: false,
+                },
+                {
+                    id: 4,
+                    text: '7777',
+                    correct: false,
+                },
+                ]
+            },
+        ];
+
+        let countdown = 20;
+
+        const init = () => {
+            if (currentQuestion >= QUESTIONS.length) {
+                // Si toutes les questions ont été répondues, afficher le score total et quitter la fonction
+                scoreTotalEl.innerHTML = '<span class="score_total" id="score_total">Score total: <span class="val_score_total">' + score + '</span></span>';
+                titleEl.innerHTML = '';
+                message.innerHTML = '';
+                answersEl.innerHTML = '';
+                timerEl.innerHTML = '';
+                
+                return ;
+            }
+        
+            titleEl.innerHTML = QUESTIONS[currentQuestion].question;
+            message.innerHTML = '';
+            timerEl.innerHTML = 'Temps : ' + countdown + ' secondes';
+        
+            answersEl.innerHTML = '';
+            for (const answer of QUESTIONS[currentQuestion].answers) {
+                const li = document.createElement('li');
+                li.id = answer.id;
+                li.classList.add('answer');
+                li.innerHTML = answer.text;
+                li.addEventListener('click', () => checkAnswerHandler(answer.id));
+                answersEl.appendChild(li);
+            }
+        
+            clearInterval(timerInterval);
+            countdown = 20;
+            timerInterval = setInterval(() => {
+                countdown--;
+                timerEl.innerHTML = 'Temps : ' + countdown + ' secondes';
+                if (countdown <= 0) {
+                    clearInterval(timerInterval);
+                    currentQuestion++;
+                    init();
+                }
+            }, 1000);
+        }
+
+        const answeredQuestions = [];
+        const checkAnswerHandler = (id) => {
+            const answered = QUESTIONS[currentQuestion].answers.find(an => an.id === id);
+            if (answeredQuestions.includes(currentQuestion)) {
+               
+                return;
+            }
+            
+            answeredQuestions.push(currentQuestion);
+            clearInterval(timerInterval);
+        
+            if (answered.correct) {
+                message.innerHTML = 'GOOD!';
+                document.getElementById(id).classList.add('correct');
+                score += 1;
+                scoreTotalEl.textContent = 'Score : ' + score; 
+            } else {
+                message.innerHTML = 'WRONG ONE!';
+                document.getElementById(id).classList.add('incorrect');
+            }
+            setTimeout(() => {
+                currentQuestion++;
+                init();
+            }, 3000);
+        }
+
+        init();
+       
+        
+        
+    </script>
+</body>
+</html>
